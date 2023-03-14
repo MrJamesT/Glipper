@@ -1,5 +1,5 @@
 <template>
-	<v-data-table :headers="headers" :items="desserts" class="elevation-1">
+	<v-data-table :headers="headers" :items="desserts" class="elevation-1" style="max-width: 800px;">
 		<template v-slot:item.calories="{ item }">
 			<v-chip color="blue">
 				{{ item.raw.calories }}
