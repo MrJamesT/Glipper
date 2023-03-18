@@ -1,5 +1,7 @@
 <template>
-	<v-data-table :headers="headers" :items="games" class="elevation-1" style="max-width: 800px" @click:row="handleGameClick"> </v-data-table>
+	<div class="d-flex flex-column flex-grow-1 align-center">
+		<v-data-table :headers="headers" :items="games" class="elevation-1 no-select" style="max-width: 800px" @click:row="handleGameClick"> </v-data-table>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -22,4 +24,8 @@ fetch('http://localhost:6969/gamesList')
 	})
 </script>
 
-<style scoped></style>
+<style scoped>
+.no-select {
+	user-select: none;
+}
+</style>

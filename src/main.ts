@@ -10,6 +10,9 @@ import * as directives from 'vuetify/directives'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 
 const vuetify = createVuetify({
+	theme: {
+		defaultTheme: 'dark'
+	},
 	components: {
 		...components,
 		VDataTable

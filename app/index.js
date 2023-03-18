@@ -24,7 +24,7 @@ function createWindow() {
 	// Open the DevTools.
 	if (isDev) {
 		mainWindow.loadURL('http://localhost:9696')
-		mainWindow.webContents.openDevTools()
+		// mainWindow.webContents.openDevTools()
 	} else {
 		// mainWindow.removeMenu();
 		mainWindow.loadFile(path.join(__dirname, 'build', 'index.html'))
