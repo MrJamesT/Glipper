@@ -1,10 +1,10 @@
 <template>
-	<div class="d-flex flex-column flex-grow-1 align-center">
-		<v-btn style="max-width: 800px" class="w-100 mb-2" @click="$emit('game-deselected')">
+	<div class="d-flex flex-column align-center h-full" style="width: 650px;">
+		<v-btn class="w-100 my-2" @click="$emit('game-deselected')">
 			<v-icon start>mdi-arrow-left</v-icon>
 			Back to Games List
 		</v-btn>
-		<v-data-table :headers="headers" :items="clips" class="elevation-1 no-select w-100" style="max-width: 800px" @click:row="handleClipClick"> </v-data-table>
+		<v-data-table :headers="headers" :items="clips" class="elevation-1 no-select h-100" items-per-page="22" @click:row="handleClipClick" style="width: 650px;"> </v-data-table>
 	</div>
 </template>
 

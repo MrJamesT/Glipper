@@ -1,8 +1,8 @@
 <template>
-	<div class="d-flex justify-space-evenly align-center h-full pa-8" style="gap: 16px">
+	<div class="d-flex justify-space-between align-center h-full">
 		<FolderTable v-if="selectedGame.length === 0" @game-selected="handleGameSelected" />
 		<GameTable v-else :gameName="selectedGame" @clip-selected="handleClipSelected" @game-deselected="selectedGame = ''" />
-		<VideoPlayer :gameName="selectedGame" :clipName="selectedClip" class="flex-grow-1" style="max-width: 1000px" />
+		<VideoPlayer :gameName="selectedGame" :clipName="selectedClip" style="max-width: 80vw" />
 	</div>
 </template>
 

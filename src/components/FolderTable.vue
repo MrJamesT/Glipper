@@ -1,6 +1,6 @@
 <template>
-	<div class="d-flex flex-column flex-grow-1 align-center">
-		<v-data-table :headers="headers" :items="games" class="elevation-1 no-select" style="max-width: 800px" @click:row="handleGameClick"> </v-data-table>
+	<div class="d-flex flex-column align-center h-full" style="width: 650px;">
+		<v-data-table :headers="headers" :items="games" class="elevation-1 no-select h-100" items-per-page="22" @click:row="handleGameClick" style="width: 650px;"></v-data-table>
 	</div>
 </template>
 

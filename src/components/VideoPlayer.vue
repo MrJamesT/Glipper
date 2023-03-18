@@ -1,6 +1,6 @@
 <template>
-	<div class="d-flex flex-column justify-center align-center">
-		<video ref="video" controls class="w-100"></video>
+	<div class="flex-grow-1 d-flex flex-column justify-center align-center pa-12">
+		<video ref="video" controls class="w-100 h-100"></video>
 
 		<div class="d-flex justify-center align-center pa-4">
 			<v-btn class="btn mx-2" @click="markStartPoint">
@@ -28,25 +28,37 @@
 			</v-btn>
 		</div>
 
-		<div class="d-flex flex-grow-1 justify-center align-center pa-2">
-			<v-checkbox v-model="clipSettings.deleteOrginal" label="Delete original clip" hide-details></v-checkbox>
-			<p class="text-subtitle-1 text-grey ml-12 mt-1">Estimated file size: xxx.xx MB</p>
-		</div>
+		<v-checkbox v-model="clipSettings.deleteOrginal" label="Delete original clip" hide-details class="pa-2"></v-checkbox>
 
 		<div class="d-flex justify-center align-center pa-2" v-if="clipDetails.duration > 0">
 			<v-chip class="ma-2" color="primary">
+				<v-icon start>mdi-map-marker-right-outline</v-icon>
+				{{ clipSettings.startPoint }}s
+			</v-chip>
+
+			<v-chip class="ma-2" color="primary">
+				<v-icon start>mdi-map-marker-left-outline</v-icon>
+				{{ clipSettings.endPoint }}s
+			</v-chip>
+			
+			<v-chip class="ma-2" color="secondary">
 				<v-icon start>mdi-timer-outline</v-icon>
 				{{ clipDetails.duration }}s
 			</v-chip>
 
-			<v-chip class="ma-2" color="primary">
+			<v-chip class="ma-2" color="secondary">
 				<v-icon start>mdi-record-rec</v-icon>
 				{{ clipDetails.fps }} FPS
 			</v-chip>
 
-			<v-chip class="ma-2" color="primary">
+			<v-chip class="ma-2" color="secondary">
 				<v-icon start>mdi-video-image</v-icon>
 				{{ clipDetails.resolution }}
+			</v-chip>
+
+			<v-chip class="ma-2" color="secondary">
+				<v-icon start>mdi-image-size-select-large</v-icon>
+				150.25 MB
 			</v-chip>
 		</div>
 	</div>
@@ -59,8 +71,8 @@ const props = defineProps(['gameName', 'clipName'])
 const video = ref<HTMLVideoElement>()
 
 const clipSettings = ref({
-	startPoint: 0,
-	endPoint: 0,
+	startPoint: 50,
+	endPoint: 60,
 	compilation: false,
 	deleteOrginal: true
 })
@@ -84,6 +96,7 @@ const getClipDetails = async () => {
 			clipDetails.value.duration = +(+data.duration).toFixed(2)
 			clipDetails.value.fps = +data.fps
 			clipDetails.value.resolution = data.resolution
+			clipSettings.value.endPoint = +clipDetails.value.duration
 		})
 }
 
@@ -101,14 +114,12 @@ watch(
 
 const markStartPoint = () => {
 	if (!video.value) return
-	clipSettings.value.startPoint = video.value.currentTime
-	console.log(clipSettings.value.startPoint)
+	clipSettings.value.startPoint = +video.value.currentTime.toFixed(3)
 }
 
 const markEndPoint = () => {
 	if (!video.value) return
-	clipSettings.value.endPoint = video.value.currentTime
-	console.log(clipSettings.value.endPoint)
+	clipSettings.value.endPoint = +video.value.currentTime.toFixed(3)
 }
 
 document.addEventListener('keydown', (e) => {
