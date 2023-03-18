@@ -16,13 +16,14 @@ function createWindow() {
 		height: 600,
 		webPreferences: {
 			// preload: path.join(__dirname, 'preload.js'),
-			nodeIntegration: true
+			nodeIntegration: true,
+			webSecurity: false,
 		}
 	})
 
 	// Open the DevTools.
 	if (isDev) {
-		mainWindow.loadURL('http://localhost:5174')
+		mainWindow.loadURL('http://localhost:9696')
 		mainWindow.webContents.openDevTools()
 	} else {
 		// mainWindow.removeMenu();

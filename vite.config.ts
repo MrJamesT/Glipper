@@ -8,5 +8,8 @@ export default defineConfig({
 	build: {
 		outDir: 'app/build'
 	},
-	plugins: [vue(), vuetify()]
+	plugins: [vue(), vuetify()],
+	server: {
+		port: 9696
+	}
 })
