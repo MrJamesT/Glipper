@@ -21,6 +21,12 @@
 				<v-icon color="grey" end>mdi-alpha-c-box-outline</v-icon>
 			</v-btn>
 
+			<v-btn class="btn mx-2" @click="deleteClip">
+				<v-icon start>mdi-delete-empty</v-icon>
+				Delete clip
+				<v-icon color="grey" end>mdi-alpha-d-box-outline</v-icon>
+			</v-btn>
+
 			<v-btn class="btn mx-2" @click="saveClip">
 				<v-icon start>mdi-file-video-outline</v-icon>
 				Save clip
@@ -76,14 +82,14 @@
 
 			<v-chip class="ma-2" color="secondary">
 				<v-icon start>mdi-image-size-select-large</v-icon>
-				150.25 MB
+				{{ approximateFileSize }}
 			</v-chip>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { useToast } from 'vue-toastification'
 
 import { useRootStore } from '../stores/rootStore'
@@ -104,24 +110,32 @@ const clipDetails = ref({
 	duration: 0,
 	fps: 0,
 	resolution: '',
+	size: '',
+})
+
+const approximateFileSize = computed(() => {
+	const originalSize = +clipDetails.value.size.replace(' MB', '')
+	const duration = clipSettings.value.endTime - clipSettings.value.startTime
+	return '~' + ((originalSize / clipDetails.value.duration) * duration).toFixed(2) + ' MB'
 })
 
 const getClipDetails = async () => {
-	fetch('http://localhost:6969/getClipDetails', {
+	const response = await fetch('http://localhost:6969/getClipDetails', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({ game: rootStore.selectedGame, clip: rootStore.selectedClip }),
 	})
-		.then((response) => response.json())
-		.then((data) => {
-			clipDetails.value.duration = +(+data.duration).toFixed(2)
-			clipDetails.value.fps = +data.fps
-			clipDetails.value.resolution = data.resolution
-			clipSettings.value.endTime = +clipDetails.value.duration
-			clipSettings.value.customName = rootStore.selectedClip.replace('.mp4', '')
-		})
+	const data = await response.json()
+	
+	clipDetails.value.duration = +(+data.duration).toFixed(2)
+	clipDetails.value.fps = +data.fps
+	clipDetails.value.resolution = data.resolution
+	clipSettings.value.startTime = +clipDetails.value.duration - 10
+	clipSettings.value.endTime = +clipDetails.value.duration
+	clipDetails.value.size = data.size
+	clipSettings.value.customName = rootStore.selectedClip.replace('.mp4', '')
 }
 
 const saveClip = async () => {
@@ -151,14 +165,34 @@ const saveClip = async () => {
 	})
 }
 
+const deleteClip = async () => {
+	fetch('http://localhost:6969/deleteClip', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ game: rootStore.selectedGame, clip: rootStore.selectedClip }),
+	}).then(async (response) => {
+		if (response.status === 200) {
+			toast.success('Clip deleted successfully!')
+			if (video.value) video.value.src = ''
+			rootStore.selectNextClip()
+			const data = await response.json()
+			rootStore.clips = data
+		} else {
+			toast.error('Error deleting clip!')
+		}
+	})
+}
+
 watch(
 	() => [rootStore.selectedGame, rootStore.selectedClip],
-	() => {
+	async () => {
 		if (rootStore.selectedGame.length > 0 && rootStore.selectedClip.length > 0 && video.value) {
+			await getClipDetails()
 			video.value.src = `E:/Videos/ShadowPlay/${rootStore.selectedGame}/${rootStore.selectedClip}`
-			video.value.currentTime = 50
+			video.value.currentTime = clipSettings.value.startTime
 			video.value.play()
-			getClipDetails()
 		}
 	},
 )

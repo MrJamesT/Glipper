@@ -15,7 +15,11 @@
 import { useRootStore } from '../stores/rootStore'
 const rootStore = useRootStore()
 
-const headers = [{ title: 'Game name', key: 'name' }]
+const headers = [
+	{ title: 'Game name', key: 'name' },
+	{ title: 'Number of Clips', key: 'nOfClips' },
+	{ title: 'File size', key: 'size' },
+]
 
 const handleGameClick = (e: Event, game: any) => {
 	rootStore.selectedGame = game.item.raw.name
