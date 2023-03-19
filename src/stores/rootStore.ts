@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { Game } from '../models/Game'
 import { Clip } from '../models/Clip'
+import { ClipSwitch } from '../models/ClipSwitch'
 
 export const useRootStore = defineStore('root', {
 	state: () => ({
@@ -8,6 +9,7 @@ export const useRootStore = defineStore('root', {
 		selectedClip: '',
 		games: [] as Game[],
 		clips: [] as Clip[],
+		clipSwitch: ClipSwitch.Next,
 	}),
 	actions: {
 		fetchGamesList() {
@@ -26,19 +28,26 @@ export const useRootStore = defineStore('root', {
 				body: JSON.stringify({ game: this.selectedGame }),
 			})
 				.then((response) => response.json())
-				.then((data) => {
+				.then((data: Clip[]) => {
 					this.clips = data
 				})
 		},
 		selectNextClip() {
-			const index = this.clips.findIndex((clip) => clip.name === this.selectedClip)
-			if (index < this.clips.length - 1) {
-				this.selectedClip = this.clips[index + 1].name
+			if (this.clipSwitch === ClipSwitch.Next) {
+				const index = this.clips.findIndex((clip) => clip.name === this.selectedClip)
+				if (index < this.clips.length - 1) {
+					this.selectedClip = this.clips[index + 1].name
+				}
+			} else {
+				const index = this.clips.findIndex((clip) => clip.name === this.selectedClip)
+				if (index > 0) {
+					this.selectedClip = this.clips[index - 1].name
+				}
 			}
 		},
 		deselectGame() {
 			this.selectedGame = ''
 			this.selectedClip = ''
-		}
+		},
 	},
 })

@@ -4,15 +4,47 @@
 		<GameTable v-else />
 		<VideoPlayer style="max-width: 80vw" />
 	</div>
+	<div class="settingsBtn">
+		<v-btn class="btn my-4" color="secondary" variant="text" @click="rebuildGameDB">
+			<v-icon start>mdi-refresh</v-icon>
+			Rebuild Game DB
+		</v-btn>
+		<v-btn class="btn ma-4" color="primary" variant="text" @click="dialog = true">
+			<v-icon start>mdi-cog-outline</v-icon>
+			Settings
+		</v-btn>
+	</div>
+
+	<SettingsDialog :dialog="dialog" @close-dialog="dialog = false" />
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import FolderTable from './components/FolderTable.vue'
 import GameTable from './components/GameTable.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
+import SettingsDialog from './components/SettingsDialog.vue'
 
 import { useRootStore } from './stores/rootStore'
+import { useToast } from 'vue-toastification'
 const rootStore = useRootStore()
+const toast = useToast()
+
+const dialog = ref(false)
+
+const rebuildGameDB = () => {
+	rootStore.selectedClip = ''
+	rootStore.selectedGame = ''
+
+	fetch('http://localhost:6969/buildGameDB', {
+		method: 'PUT',
+	}).then((res) => {
+		if (res.status === 200) {
+			rootStore.fetchGamesList()
+			toast.success('Game DB rebuilt')
+		}
+	})
+}
 
 rootStore.fetchGamesList()
 </script>
@@ -32,5 +64,11 @@ rootStore.fetchGamesList()
 
 .w-100 {
 	width: 100%;
+}
+
+.settingsBtn {
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 </style>

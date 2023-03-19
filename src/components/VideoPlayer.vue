@@ -136,12 +136,14 @@ const saveClip = async () => {
 			startTime: clipSettings.value.startTime,
 			endTime: clipSettings.value.endTime,
 			removeOriginal: clipSettings.value.removeOriginal,
-			customName: clipSettings.value.customName + '.mp4',
+			customName: clipSettings.value.customName + '.cut.mp4',
 		}),
-	}).then((response) => {
+	}).then(async (response) => {
 		if (response.status === 200) {
 			toast.success('Clip saved successfully!')
 			if (video.value) video.value.src = ''
+			const data = await response.json()
+			rootStore.clips = data
 			rootStore.selectNextClip()
 		} else {
 			toast.error('Error saving clip!')
@@ -171,13 +173,14 @@ const markEndTime = () => {
 	clipSettings.value.endTime = +video.value.currentTime.toFixed(3)
 }
 
+// Handle all keyboard events along with removing them when user is typing in the input field
 const handleKeyboard = (e: KeyboardEvent) => {
 	if (e.key === 'q') {
 		markStartTime()
 	} else if (e.key === 'w') {
 		markEndTime()
 	} else if (e.key === 'c') {
-		console.log('c')
+		console.warn('not implemented')
 	} else if (e.key === 's') {
 		saveClip()
 	}
