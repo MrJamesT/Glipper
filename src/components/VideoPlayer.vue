@@ -142,9 +142,9 @@ const saveClip = async () => {
 		if (response.status === 200) {
 			toast.success('Clip saved successfully!')
 			if (video.value) video.value.src = ''
+			rootStore.selectNextClip()
 			const data = await response.json()
 			rootStore.clips = data
-			rootStore.selectNextClip()
 		} else {
 			toast.error('Error saving clip!')
 		}

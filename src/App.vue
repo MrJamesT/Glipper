@@ -38,9 +38,9 @@ const rebuildGameDB = () => {
 
 	fetch('http://localhost:6969/buildGameDB', {
 		method: 'PUT',
-	}).then((res) => {
+	}).then(async (res) => {
 		if (res.status === 200) {
-			rootStore.fetchGamesList()
+			await rootStore.fetchGamesList()
 			toast.success('Game DB rebuilt')
 		}
 	})

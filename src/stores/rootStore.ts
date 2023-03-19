@@ -12,14 +12,14 @@ export const useRootStore = defineStore('root', {
 		clipSwitch: ClipSwitch.Next,
 	}),
 	actions: {
-		fetchGamesList() {
+		async fetchGamesList() {
 			fetch('http://localhost:6969/gamesList')
 				.then((response) => response.json())
 				.then((data: Game[]) => {
 					this.games = data
 				})
 		},
-		fetchClipsList() {
+		async fetchClipsList() {
 			fetch('http://localhost:6969/clipsList', {
 				method: 'POST',
 				headers: {
