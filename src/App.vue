@@ -1,8 +1,8 @@
 <template>
 	<div class="d-flex justify-space-between align-center h-full">
-		<FolderTable v-if="selectedGame.length === 0" @game-selected="handleGameSelected" />
-		<GameTable v-else :gameName="selectedGame" @clip-selected="handleClipSelected" @game-deselected="selectedGame = ''" />
-		<VideoPlayer :gameName="selectedGame" :clipName="selectedClip" style="max-width: 80vw" />
+		<FolderTable v-if="rootStore.selectedGame.length === 0" />
+		<GameTable v-else />
+		<VideoPlayer style="max-width: 80vw" />
 	</div>
 </template>
 
@@ -10,18 +10,11 @@
 import FolderTable from './components/FolderTable.vue'
 import GameTable from './components/GameTable.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
-import { ref } from 'vue'
 
-const selectedGame = ref<string>('')
-const selectedClip = ref<string>('')
+import { useRootStore } from './stores/rootStore'
+const rootStore = useRootStore()
 
-const handleGameSelected = (gameName: string) => {
-	selectedGame.value = gameName
-}
-
-const handleClipSelected = (clipName: string) => {
-	selectedClip.value = clipName
-}
+rootStore.fetchGamesList()
 </script>
 
 <style>
