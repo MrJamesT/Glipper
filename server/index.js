@@ -1,6 +1,5 @@
 const path = require('path')
 const { app, BrowserWindow } = require('electron')
-require('./server')
 
 if (require('electron-squirrel-startup')) {
 	app.quit()
@@ -9,14 +8,15 @@ if (require('electron-squirrel-startup')) {
 function createWindow() {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
+        show: false,
 		webPreferences: {
 			// preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true,
 			webSecurity: false
 		}
 	})
+    mainWindow.maximize()
+    mainWindow.show()
 
 	if (process.env.IS_DEV === 'true') {
 		mainWindow.loadURL('http://localhost:9696')
@@ -28,7 +28,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-
+	require('./server')
 	createWindow()
 	app.on('activate', function () {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow()

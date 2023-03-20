@@ -2,8 +2,8 @@
 	"name": "clip-cutter",
 	"version": "1.0.0",
 	"description": "An electron app for cutting clips from game recordings",
-	"main": "index.ts",
-	"author": "MrJamesT <jakubtabacek@gmail.com>",
+	"main": "index.js",
+	"author": "Jakub Tabacek",
 	"license": "MIT",
 	"private": true,
 	"scripts": {
@@ -25,8 +25,6 @@
 	},
 	"devDependencies": {
 		"@electron-forge/cli": "^6.0.5",
-		"@electron-forge/maker-deb": "^6.0.5",
-		"@electron-forge/maker-rpm": "^6.0.5",
 		"@electron-forge/maker-squirrel": "^6.0.5",
 		"@electron-forge/maker-zip": "^6.0.5",
 		"@types/express": "^4.17.17",
