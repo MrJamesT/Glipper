@@ -1,0 +1,7 @@
+{
+	"compilerOptions": {
+		"types": ["node", "fluent-ffmpeg", "express"],
+		"module": "commonjs",
+	},
+	"include": ["./**/*.ts", "./**/*.d.ts"]
+}

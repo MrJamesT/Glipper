@@ -6,7 +6,7 @@ import vuetify from 'vite-plugin-vuetify'
 export default defineConfig({
 	base: process.env.IS_DEV !== 'true' ? './' : '/',
 	build: {
-		outDir: 'app/build'
+		outDir: '../dist'
 	},
 	plugins: [vue(), vuetify()],
 	server: {
