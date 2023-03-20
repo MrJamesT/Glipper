@@ -18,7 +18,7 @@ const db = new JsonDB(new Config('clip-cutter-db', true, false, '/'))
 
 // Middleware to check if game folder exists
 expApp.use(async (req, res, next) => {
-	if (req.path === '/' || req.path === '/setGameFolder') return next()
+	if (req.path === '/' || req.path === '/settings') return next()
 
 	try {
 		const folder = await db.getData('/settings/gameFolder')

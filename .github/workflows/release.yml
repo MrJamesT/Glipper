@@ -1,0 +1,48 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install client dependencies and build
+        run: |
+          cd client
+          yarn install
+          yarn build
+
+      - name: Build and make Electron app
+        run: |
+          cd server
+          yarn install
+          yarn build
+          yarn make
+
+      - name: Get version from package.json
+        id: get_version
+        run: echo "::set-output name=VERSION::$(node -p "require('./server/package.json').version")"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+          tag_name: "v${{ steps.get_version.outputs.VERSION }}"
+          name: "Release v${{ steps.get_version.outputs.VERSION }}"
+          body: "Description of the release."
+          files: |
+            server/out/make/*/*
