@@ -1,5 +1,6 @@
 # GCCU - Game Clip Cutting Utility
 
+[![Create Release](https://github.com/MrJamesT/gccu/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/MrJamesT/gccu/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Electron Version](https://img.shields.io/badge/electron-v23.1.3-blue)](https://www.electronjs.org/)
 [![Express.js Version](https://img.shields.io/badge/Express.js-v4.18.2-yellow)](https://expressjs.com/)
