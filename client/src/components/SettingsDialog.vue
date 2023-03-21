@@ -10,7 +10,7 @@
 						<v-row>
 							<v-col cols="12">
 								<v-text-field
-									v-model="settings.gameFolder"
+									v-model="rootStore.settings.gameFolder"
 									label="Clips folder path"
 									variant="outlined"
 									hide-details
@@ -42,7 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import { ClipSwitch } from '../models/ClipSwitch'
 import { useRootStore } from '../stores/rootStore'
@@ -52,36 +51,26 @@ const toast = useToast()
 const props = defineProps(['dialog'])
 const emit = defineEmits(['close-dialog'])
 
-const settings = ref({
-	gameFolder: '',
-})
-
 const saveSettings = async () => {
 	fetch('http://localhost:6969/settings', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ settings: settings.value }),
+		body: JSON.stringify({ settings: rootStore.settings }),
 	})
 		.then(async (response) => {
 			if (response.status === 200) {
 				toast.success('Settings saved')
 				emit('close-dialog')
 			} else {
-				toast.error('Settings not saved: ' + await response.text())
+				toast.error('Settings not saved: ' + (await response.text()))
 			}
 		})
 		.catch((error) => {
 			toast.error('Settings not saved: ' + error)
 		})
 }
-
-fetch('http://localhost:6969/settings')
-	.then((response) => response.json())
-	.then((data) => {
-		settings.value.gameFolder = data.gameFolder
-	})
 </script>
 
 <style scoped></style>

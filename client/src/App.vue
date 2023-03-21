@@ -47,6 +47,7 @@ const rebuildGameDB = () => {
 }
 
 rootStore.fetchGamesList()
+rootStore.fetchSettings()
 </script>
 
 <style>

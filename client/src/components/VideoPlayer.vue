@@ -190,7 +190,7 @@ watch(
 	async () => {
 		if (rootStore.selectedGame.length > 0 && rootStore.selectedClip.length > 0 && video.value) {
 			await getClipDetails()
-			video.value.src = `E:/Videos/ShadowPlay/${rootStore.selectedGame}/${rootStore.selectedClip}`
+			video.value.src = `${rootStore.settings.gameFolder}/${rootStore.selectedGame}/${rootStore.selectedClip}`
 			video.value.currentTime = clipSettings.value.startTime
 			video.value.play()
 		}

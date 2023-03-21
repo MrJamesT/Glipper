@@ -10,6 +10,9 @@ export const useRootStore = defineStore('root', {
 		games: [] as Game[],
 		clips: [] as Clip[],
 		clipSwitch: ClipSwitch.Next,
+		settings: {
+			gameFolder: '',
+		},
 	}),
 	actions: {
 		async fetchGamesList() {
@@ -30,6 +33,13 @@ export const useRootStore = defineStore('root', {
 				.then((response) => response.json())
 				.then((data: Clip[]) => {
 					this.clips = data
+				})
+		},
+		async fetchSettings() {
+			fetch('http://localhost:6969/settings')
+				.then((response) => response.json())
+				.then((data) => {
+					this.settings.gameFolder = data.gameFolder
 				})
 		},
 		selectNextClip() {
