@@ -4,8 +4,7 @@
 	"description": "An electron app for cutting clips from game recordings",
 	"main": "index.js",
 	"author": "Jakub Tabacek",
-	"license": "MIT",
-	"private": true,
+	"license": "GPL-3.0",
 	"scripts": {
 		"start:server": "nodemon server.ts --ignore *.json",
 		"build": "tsc",

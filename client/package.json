@@ -1,11 +1,10 @@
 {
 	"name": "clip-cutter-fe",
-	"private": true,
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"author": "Jakub Tabacek",
-	"main": "app/index.js",
+	"main": "src/main.ts",
 	"description": "Vite + Vue app for electron",
-	"license": "MIT",
+	"license": "GPL-3.0",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",

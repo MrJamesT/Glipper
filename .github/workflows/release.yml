@@ -33,8 +33,7 @@ jobs:
 
       - name: Get version from package.json
         id: get_version
-        run: |
-          echo "VERSION=$(node -p "require('./server/package.json').version")" >> $GITHUB_ENV
+        run: echo "::set-output name=VERSION::$(node -p "require('./server/package.json').version")"
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
@@ -42,8 +41,8 @@ jobs:
           token: ${{ secrets.PUSH_RELEASE_TOKEN }}
           draft: false
           prerelease: false
-          tag_name: "v${{ env.VERSION }}"
-          name: "Release v${{ env.VERSION }}"
+          tag_name: "v${{ steps.get_version.outputs.VERSION }}"
+          name: "Release v${{ steps.get_version.outputs.VERSION }}"
           body: "Release of GCCU - Game Clip Cutting Utility."
           files: |
             server/out/make/squirrel.windows/x64/*
