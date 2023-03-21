@@ -1,6 +1,6 @@
 {
 	"name": "clip-cutter-fe",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "Jakub Tabacek",
 	"main": "src/main.ts",
 	"description": "Vite + Vue app for electron",
