@@ -1,6 +1,6 @@
 {
-	"name": "clip-cutter-fe",
-	"version": "1.0.1",
+	"name": "glipper-fe",
+	"version": "1.1.0",
 	"author": "Jakub Tabacek",
 	"main": "src/main.ts",
 	"description": "Vite + Vue app for electron",
@@ -11,7 +11,10 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@vueuse/core": "^9.13.0",
+		"date-fns": "^2.30.0",
 		"pinia": "^2.0.33",
+		"socket.io-client": "^4.6.1",
 		"vite-plugin-vuetify": "^1.0.2",
 		"vue": "^3.2.45",
 		"vue-toastification": "^2.0.0-rc.5",

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { Game } from '../models/Game'
 import { Clip } from '../models/Clip'
 import { ClipSwitch } from '../models/ClipSwitch'
+import { useLocalStorage } from '@vueuse/core'
 
 export const useRootStore = defineStore('root', {
 	state: () => ({
@@ -9,10 +10,11 @@ export const useRootStore = defineStore('root', {
 		selectedClip: '',
 		games: [] as Game[],
 		clips: [] as Clip[],
-		clipSwitch: ClipSwitch.Next,
-		settings: {
+		settings: useLocalStorage('settings', {
 			gameFolder: '',
-		},
+			clipSwitch: ClipSwitch.Next,
+			clipboardToggle: false,
+		}),
 	}),
 	actions: {
 		async fetchGamesList() {
@@ -43,7 +45,7 @@ export const useRootStore = defineStore('root', {
 				})
 		},
 		selectNextClip() {
-			if (this.clipSwitch === ClipSwitch.Next) {
+			if (this.settings.clipSwitch === ClipSwitch.Next) {
 				const index = this.clips.findIndex((clip) => clip.name === this.selectedClip)
 				if (index < this.clips.length - 1) {
 					this.selectedClip = this.clips[index + 1].name
