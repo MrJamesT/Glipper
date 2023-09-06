@@ -26,7 +26,9 @@ import VideoPlayer from './components/VideoPlayer.vue'
 import SettingsDialog from './components/SettingsDialog.vue'
 
 import { useRootStore } from './stores/rootStore'
+import { useClipQueueStore } from './stores/clipQueueStore'
 import { useToast } from 'vue-toastification'
+import { socket } from './socket'
 const rootStore = useRootStore()
 const toast = useToast()
 
@@ -45,6 +47,14 @@ const rebuildGameDB = () => {
 		}
 	})
 }
+
+socket.on('progress', (data: { clip: string; progress: number }) => {
+	try {
+		console.log(data.progress, data.clip)
+	} catch (error) {
+		console.log(error)
+	}
+})
 
 rootStore.fetchGamesList()
 rootStore.fetchSettings()

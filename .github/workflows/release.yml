@@ -43,6 +43,6 @@ jobs:
           prerelease: false
           tag_name: "v${{ steps.get_version.outputs.VERSION }}"
           name: "Release v${{ steps.get_version.outputs.VERSION }}"
-          body: "Release of GCCU - Game Clip Cutting Utility."
+          body: "New Glipper release - Patch Notes TBD..."
           files: |
             server/out/make/squirrel.windows/x64/*

@@ -128,17 +128,19 @@ const getClipDetails = async () => {
 		body: JSON.stringify({ game: rootStore.selectedGame, clip: rootStore.selectedClip }),
 	})
 	const data = await response.json()
-	
+
 	clipDetails.value.duration = +(+data.duration).toFixed(2)
 	clipDetails.value.fps = +data.fps
 	clipDetails.value.resolution = data.resolution
-	clipSettings.value.startTime = +clipDetails.value.duration - 10
+	clipSettings.value.startTime = +clipDetails.value.duration - 10 < 0 ? 0 : +clipDetails.value.duration - 10
 	clipSettings.value.endTime = +clipDetails.value.duration
 	clipDetails.value.size = data.size
 	clipSettings.value.customName = rootStore.selectedClip.replace('.mp4', '')
 }
 
 const saveClip = async () => {
+	if (video.value) video.value.src = ''
+
 	fetch('http://localhost:6969/cutClip', {
 		method: 'POST',
 		headers: {
@@ -151,11 +153,11 @@ const saveClip = async () => {
 			endTime: clipSettings.value.endTime,
 			removeOriginal: clipSettings.value.removeOriginal,
 			customName: clipSettings.value.customName + '.cut.mp4',
+			pasteToClipboard: rootStore.settings.clipboardToggle,
 		}),
 	}).then(async (response) => {
 		if (response.status === 200) {
 			toast.success('Clip saved successfully!')
-			if (video.value) video.value.src = ''
 			rootStore.selectNextClip()
 			const data = await response.json()
 			rootStore.clips = data
@@ -166,6 +168,8 @@ const saveClip = async () => {
 }
 
 const deleteClip = async () => {
+	if (video.value) video.value.src = ''
+
 	fetch('http://localhost:6969/deleteClip', {
 		method: 'POST',
 		headers: {
@@ -175,7 +179,6 @@ const deleteClip = async () => {
 	}).then(async (response) => {
 		if (response.status === 200) {
 			toast.success('Clip deleted successfully!')
-			if (video.value) video.value.src = ''
 			rootStore.selectNextClip()
 			const data = await response.json()
 			rootStore.clips = data
@@ -199,12 +202,12 @@ watch(
 
 const markStartTime = () => {
 	if (!video.value) return
-	clipSettings.value.startTime = +video.value.currentTime.toFixed(3)
+	clipSettings.value.startTime = +video.value.currentTime.toFixed(2)
 }
 
 const markEndTime = () => {
 	if (!video.value) return
-	clipSettings.value.endTime = +video.value.currentTime.toFixed(3)
+	clipSettings.value.endTime = +video.value.currentTime.toFixed(2)
 }
 
 // Handle all keyboard events along with removing them when user is typing in the input field

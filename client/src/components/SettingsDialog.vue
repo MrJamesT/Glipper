@@ -5,7 +5,7 @@
 				<v-card-title>
 					<span class="text-h5">Settings</span>
 				</v-card-title>
-				<v-card-text>
+				<v-card-text v-if="props.dialog">
 					<v-container>
 						<v-row>
 							<v-col cols="12">
@@ -19,10 +19,24 @@
 
 							<v-col cols="12">
 								<v-switch
-									v-model="rootStore.clipSwitch"
-									:label="'Next clip after saving: ' + rootStore.clipSwitch"
+									v-model="rootStore.settings.clipSwitch"
+									:label="'Next clip after saving: ' + rootStore.settings.clipSwitch"
 									:true-value="ClipSwitch.Next"
 									:false-value="ClipSwitch.Previous"
+									color="secondary"
+									inset
+									hide-details
+								></v-switch>
+							</v-col>
+
+							<v-col cols="12">
+								<v-switch
+									v-model="rootStore.settings.clipboardToggle"
+									:label="
+										'Save clips to clipboard after cutting: ' + rootStore.settings.clipboardToggle
+									"
+									true-value="YES"
+									false-value="NO"
 									color="secondary"
 									inset
 									hide-details

@@ -1,6 +1,6 @@
 module.exports = {
 	packagerConfig: {
-		ignore: ['^/clip-cutter-db.json$'],
+		ignore: ['^/glipper-db.json$'],
 		extraResource: ['../dist']
 	},
 	rebuildConfig: {},
@@ -8,7 +8,7 @@ module.exports = {
 		{
 			name: '@electron-forge/maker-squirrel',
 			config: {
-				name: 'GCCU'
+				name: 'Glipper'
 			}
 		},
 		{
