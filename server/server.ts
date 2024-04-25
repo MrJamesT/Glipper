@@ -151,11 +151,6 @@ expApp.post('/cutClip', async (req, res) => {
 
 		const folder = await db.getData('/settings/gameFolder')
 
-		// Create game folder of cut clips if it doesn't exist
-		if (!fs.existsSync(folder + '/clips/' + game)) {
-			fs.mkdirSync(folder + '/clips/' + game, { recursive: true })
-		}
-
 		const oldClipPath = folder + '/' + game + '/' + clip
 		const newClipPath = folder + '/' + game + '/' + customName
 		const duration = endTime - startTime

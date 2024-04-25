@@ -1,6 +1,6 @@
 {
 	"name": "glipper-main",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Glipper - Cut game clips easily and effortlessly",
 	"main": "index.js",
 	"author": "Jakub Tabacek",
